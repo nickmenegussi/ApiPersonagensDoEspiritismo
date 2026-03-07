@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+# Copiar o arquivo .csproj e restaurar dependências
+COPY *.csproj .
+RUN dotnet restore
+
+# Copiar todo o resto e publicar
+COPY . .
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/out .
+
+# Configurar porta
+ENV ASPNETCORE_URLS=http://+:80
+EXPOSE 80
+
+# IMPORTANTE: Use o nome DO SEU .dll
+ENTRYPOINT ["dotnet", "ApiPersonagensDoEspiritismo.dll"]
