@@ -1,0 +1,6 @@
+@ApiPersonagensDoEspiritismo_HostAddress = http://localhost:5023
+
+GET {{ApiPersonagensDoEspiritismo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
