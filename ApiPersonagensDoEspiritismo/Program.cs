@@ -1,6 +1,5 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
-// IMPORTANTE: Configurar a porta que o Render vai usar
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
@@ -20,15 +19,15 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Swagger s� em desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();  ← COMENTE ESTA LINHA
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();

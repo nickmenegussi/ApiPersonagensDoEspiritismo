@@ -40,7 +40,7 @@ namespace ApiPersonagensDoEspiritismo.Controllers
 
 
 
-
+        
         [HttpGet("tipo/{tipo}")]
         public ActionResult<List<Personagem>> GetPersonagensPorTipo(string tipo)
         {

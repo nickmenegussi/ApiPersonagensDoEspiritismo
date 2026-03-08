@@ -16,11 +16,11 @@ namespace ApiPersonagensDoEspiritismo.Repositories
         public static List<Personagem> ConsultarPersonagens()
         {
             var personagens = new List<Personagem>();
-
-            Database db = new Database();
-
+            var ObraPrincipal = new List<ObraPrincipal>();
             // Buscar personagens - SEM as colunas ObrasPrincipais e Contribuicoes
-            var tablePersonagens = db.ExecuteQuery("SELECT * FROM Personagens ORDER BY Nome");
+            var tablePersonagens = db.ExecuteQuery("SELECT * FROM Personagens ORDER BY Nome, IdNumero Desc");
+
+
 
             foreach (DataRow row in tablePersonagens.Rows)
             {
@@ -37,8 +37,8 @@ namespace ApiPersonagensDoEspiritismo.Repositories
                     CidadeNatal = row["CidadeNatal"] == DBNull.Value ? null : row["CidadeNatal"].ToString(),
                     Biografia = row["Biografia"] == DBNull.Value ? null : row["Biografia"].ToString(),
                     FotoUrl = row["FotoUrl"] == DBNull.Value ? null : row["FotoUrl"].ToString(),
-                    Tipo = row["Tipo"] == DBNull.Value ? null : row["Tipo"].ToString()
-
+                    Tipo = row["Tipo"] == DBNull.Value ? null : row["Tipo"].ToString(),
+                    
                     // REMOVIDO: ObrasPrincipais e Contribuicoes daqui
                 };
 
@@ -86,7 +86,7 @@ namespace ApiPersonagensDoEspiritismo.Repositories
         public static Personagem? ConsultarPorNome(String nome)
         {
             Database db = new Database();
-            var table = db.ExecuteQuery($"SELECT * FROM Personagens WHERE Nome = '{nome.Trim().ToLower()}'");
+            var table = db.ExecuteQuery($"SELECT * FROM Personagens WHERE Nome LIKE '%{nome.Trim().ToLower()}%'");
 
             if (table.Rows.Count == 0)
                 return null;
@@ -103,12 +103,13 @@ namespace ApiPersonagensDoEspiritismo.Repositories
                 CidadeNatal = row["CidadeNatal"] == DBNull.Value ? null : row["CidadeNatal"].ToString(),
                 Biografia = row["Biografia"] == DBNull.Value ? null : row["Biografia"].ToString(),
                 FotoUrl = row["FotoUrl"] == DBNull.Value ? null : row["FotoUrl"].ToString(),
-                Tipo = row["Tipo"] == DBNull.Value ? null : row["Tipo"].ToString()
+                Tipo = row["Tipo"] == DBNull.Value ? null : row["Tipo"].ToString(),
+                
             };
 
             //// Buscar as listas relacionadas SEPARADAMENTE
-            //personagem.ObrasPrincipais = ConsultarObrasPorPersonagem(idPersonagem);
-            //personagem.Contribuicoes = ConsultarContribuicoesPorPersonagem(idPersonagem);
+            personagem.ObrasPrincipais = ConsultarObrasPorPersonagem(personagem.IdPersonagem);
+            personagem.Contribuicoes = ConsultarContribuicoesPorPersonagem(personagem.IdPersonagem);
 
             return personagem;
         }
