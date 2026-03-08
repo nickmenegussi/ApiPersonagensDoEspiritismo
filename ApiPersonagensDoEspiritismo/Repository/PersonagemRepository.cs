@@ -11,12 +11,14 @@ namespace ApiPersonagensDoEspiritismo.Repositories
         //private static string database = "PersonagensEspiritismo";
         //private static string user = "administrador";
         //private static string password = "adminmaisprati";
-      
+
         // CONSULTAR TODOS COM AS LISTAS
         public static List<Personagem> ConsultarPersonagens()
         {
             var personagens = new List<Personagem>();
             var ObraPrincipal = new List<ObraPrincipal>();
+
+            Database db = new Database();
             // Buscar personagens - SEM as colunas ObrasPrincipais e Contribuicoes
             var tablePersonagens = db.ExecuteQuery("SELECT * FROM Personagens ORDER BY Nome, IdNumero Desc");
 
@@ -38,7 +40,7 @@ namespace ApiPersonagensDoEspiritismo.Repositories
                     Biografia = row["Biografia"] == DBNull.Value ? null : row["Biografia"].ToString(),
                     FotoUrl = row["FotoUrl"] == DBNull.Value ? null : row["FotoUrl"].ToString(),
                     Tipo = row["Tipo"] == DBNull.Value ? null : row["Tipo"].ToString(),
-                    
+
                     // REMOVIDO: ObrasPrincipais e Contribuicoes daqui
                 };
 
@@ -104,7 +106,7 @@ namespace ApiPersonagensDoEspiritismo.Repositories
                 Biografia = row["Biografia"] == DBNull.Value ? null : row["Biografia"].ToString(),
                 FotoUrl = row["FotoUrl"] == DBNull.Value ? null : row["FotoUrl"].ToString(),
                 Tipo = row["Tipo"] == DBNull.Value ? null : row["Tipo"].ToString(),
-                
+
             };
 
             //// Buscar as listas relacionadas SEPARADAMENTE
