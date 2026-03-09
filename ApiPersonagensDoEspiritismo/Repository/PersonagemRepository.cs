@@ -20,7 +20,7 @@ namespace ApiPersonagensDoEspiritismo.Repositories
 
             Database db = new Database();
             // Buscar personagens - SEM as colunas ObrasPrincipais e Contribuicoes
-            var tablePersonagens = db.ExecuteQuery("SELECT * FROM Personagens ORDER BY Nome, IdNumero Desc");
+            var tablePersonagens = db.ExecuteQuery("SELECT * FROM Personagens ORDER BY Nome, IdPersonagem Desc");
 
 
 
