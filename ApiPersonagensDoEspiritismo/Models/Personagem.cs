@@ -26,6 +26,8 @@ namespace ApiPersonagensDoEspiritismo.Models
         public int IdPersonagem { get; set; }
         public string? Titulo { get; set; }
         public int? AnoPublicacao { get; set; }
+
+        public String? FotoUrl { get; set; }
         public string? Descricao { get; set; }
     }
 
